@@ -1,57 +1,28 @@
 <script setup lang="ts">
 import TimeDisplay from './components/TimeDisplay.vue'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
-import {useTimeStore} from './store/timer.ts'
+import { useTimeStore } from './store/timer.ts'
+// import { useAudioStore } from './store/audio.ts'
 
 const timeStore = useTimeStore()
-let intervalId: any = null
-
-const isTimeStopped = ref(false)
+const isTimeStopped: Ref<boolean> = ref(false)
 
 function startTimer() {
-
   let [hours, minutes] = timeStore.time.split(':');
-  console.log(timeStore.timeBuffer)
-  timeStore.timeBuffer.hours = parseInt(hours)
-  timeStore.timeBuffer.minutes = parseInt(minutes)
-  timeStore.timeBuffer.seconds = 0
-
-  clearInterval(intervalId)
-  intervalId = setInterval(() => {
-    if (timeStore.timeBuffer.minutes === 0 && timeStore.timeBuffer.seconds === 0) {
-      timeStore.timeBuffer.hours -= 1
-      timeStore.timeBuffer.minutes = 59
-      timeStore.timeBuffer.seconds = 60
-    } else if (timeStore.timeBuffer.seconds === 0) {
-      timeStore.timeBuffer.minutes -= 1
-      timeStore.timeBuffer.seconds = 60
-    }
-    timeStore.timeBuffer.seconds -= 1
-  }, 1000)
+  timeStore.startTimer(parseInt(hours), parseInt(minutes))
 }
 function stopTimer() {
-  clearInterval(intervalId)
+  timeStore.stopTimer()
   isTimeStopped.value = true
 }
 function runTimer() {
-  intervalId = setInterval(() => {
-    if (timeStore.timeBuffer.minutes === 0 && timeStore.timeBuffer.seconds === 0) {
-      timeStore.timeBuffer.hours -= 1
-      timeStore.timeBuffer.minutes = 59
-      timeStore.timeBuffer.seconds = 60
-    } else if (timeStore.timeBuffer.seconds === 0) {
-      timeStore.timeBuffer.minutes -= 1
-      timeStore.timeBuffer.seconds = 60
-    }
-    timeStore.timeBuffer.seconds -= 1
-  }, 1000)
+  timeStore.calculeteTime()
   isTimeStopped.value = false
 }
 function resetTimer() {
-  
+  timeStore.clearTimer()
 }
-
 </script>
 
 <template>
@@ -64,8 +35,14 @@ function resetTimer() {
       <button @click="resetTimer">Сброс</button>
     </div>
     <div class="timers-container">
-      <TimeDisplay :isReversed="true" />
-      <TimeDisplay :isReversed="false" />
+      <div class="reversed">
+        <label>Прошло</label>
+        <TimeDisplay :isReversed="true" />
+      </div>
+      <div class="normal">
+        <label>Осталось</label>
+        <TimeDisplay :isReversed="false" />
+      </div>
     </div>
   </div>
 </template>
@@ -74,24 +51,71 @@ function resetTimer() {
 .main-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 }
 
 .menu-container {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.menu-container button+button {
+.menu-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-container button:hover {
+  background-color: #0056b3;
+}
+
+.menu-container button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.menu-container button + button {
   margin-left: 10px;
 }
 
 .timer {
   margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
 .timers-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  font-size: 20px;
+  width: 100%;
 }
+
+.reversed, .normal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.normal {
+  margin-left: 10px;
+}
+
+label {
+  font-size: 1rem;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
 </style>

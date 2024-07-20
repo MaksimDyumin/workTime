@@ -2,13 +2,12 @@
 import { useTimeStore } from '../store/timer.ts'
 import { ref, computed } from 'vue'
 
-
 const timeStore = useTimeStore()
 const props = defineProps({
   isReversed: Boolean,
 });
 
-const time2 = computed(() => {
+const time = computed(() => {
   if (props.isReversed) {
     let [hours, minutes] = timeStore.time.split(':');
 
@@ -24,31 +23,52 @@ const time2 = computed(() => {
   }
 
   return `${timeStore.timeBuffer.hours}:${timeStore.timeBuffer.minutes}:${timeStore.timeBuffer.seconds}`
-
 })
-
-
 
 </script>
 
 <template>
   <div class="timer-container">
     <span class="time">
-       {{ time2 }}
+       {{ time }}
     </span>
-  
   </div>
 </template>
 
 <style scoped>
-.timer-container {}
-
-.time {}
-
-/* .hours{
-
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  margin: 0 auto;
 }
-.minutes{
 
-} */
+.time {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem;
+  color: #333;
+}
+
+.hours, .minutes, .seconds {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+/* Example of individual styles for hours, minutes, and seconds */
+.hours {
+  color: #ff0000;
+}
+
+.minutes {
+  color: #00ff00;
+}
+
+.seconds {
+  color: #0000ff;
+}
 </style>
