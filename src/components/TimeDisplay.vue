@@ -2,17 +2,18 @@
 import { useTimeStore } from '../store/timer.ts'
 import { computed } from 'vue'
 
-const timeStore = useTimeStore()
+// const timeStore = useTimeStore()
 const props = defineProps({
   isReversed: Boolean,
+  timeStore: Object,
 });
 
 const time = computed(() => {
   if (props.isReversed) {
-    let [hours, minutes] = timeStore.time.split(':');
+    let [hours, minutes] = props.timeStore.time.split(':');
 
     let summSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60
-    let summStoreSeconds = timeStore.timeBuffer.hours * 3600 + timeStore.timeBuffer.minutes * 60 + timeStore.timeBuffer.seconds
+    let summStoreSeconds = props.timeStore.timeBuffer.hours * 3600 + props.timeStore.timeBuffer.minutes * 60 + props.timeStore.timeBuffer.seconds
 
     let result = summSeconds - summStoreSeconds
 
@@ -22,7 +23,7 @@ const time = computed(() => {
     return `${reversedHours}:${reversedMinutes}:${reversedSeconds}`
   }
 
-  return `${timeStore.timeBuffer.hours}:${timeStore.timeBuffer.minutes}:${timeStore.timeBuffer.seconds}`
+  return `${props.timeStore.timeBuffer.hours}:${props.timeStore.timeBuffer.minutes}:${props.timeStore.timeBuffer.seconds}`
 })
 
 </script>
