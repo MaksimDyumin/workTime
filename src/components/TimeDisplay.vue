@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTimeStore } from '../store/timer.ts'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 const timeStore = useTimeStore()
 const props = defineProps({
@@ -16,9 +16,9 @@ const time = computed(() => {
 
     let result = summSeconds - summStoreSeconds
 
-    let reversedHours = parseInt(result / 3600)
-    let reversedMinutes = parseInt(parseInt(result % 3600) / 60)
-    let reversedSeconds = parseInt(result % 3600) % 60
+    let reversedHours = parseInt(String(result / 3600))
+    let reversedMinutes = parseInt(String(parseInt(String(result % 3600)) / 60))
+    let reversedSeconds = parseInt(String(result % 3600)) % 60
     return `${reversedHours}:${reversedMinutes}:${reversedSeconds}`
   }
 

@@ -10,7 +10,12 @@ const isTimeStopped: Ref<boolean> = ref(false)
 
 function startTimer() {
   let [hours, minutes] = timeStore.time.split(':');
-  timeStore.startTimer(parseInt(hours), parseInt(minutes))
+  timeStore.dateWhenTimerStart = new Date()
+  let dwts = new Date(timeStore.dateWhenTimerStart.getTime())
+  dwts.setMinutes(dwts.getMinutes() + Number(minutes))
+  dwts.setHours(dwts.getHours() + Number(hours))
+  timeStore.targetDate = dwts
+  timeStore.startTimer()
 }
 function stopTimer() {
   timeStore.stopTimer()
@@ -85,7 +90,7 @@ function resetTimer() {
   cursor: not-allowed;
 }
 
-.menu-container button + button {
+.menu-container button+button {
   margin-left: 10px;
 }
 
@@ -102,7 +107,8 @@ function resetTimer() {
   width: 100%;
 }
 
-.reversed, .normal {
+.reversed,
+.normal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,5 +123,4 @@ label {
   color: #495057;
   margin-bottom: 10px;
 }
-
 </style>

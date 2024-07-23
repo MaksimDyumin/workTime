@@ -1,8 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import { TimerId } from './store.types'
 import { useAudioStore } from "./audio";
-
 
 
 export const useTimeStore = defineStore('time', {
@@ -12,6 +9,8 @@ export const useTimeStore = defineStore('time', {
       minutes: 0,
       seconds: 0,
     },
+    dateWhenTimerStart: new Date(),
+    targetDate: new Date(),
     intervalId: 0,
     time: '00:00'
   }),
@@ -22,10 +21,7 @@ export const useTimeStore = defineStore('time', {
   },
 
   actions: {
-    startTimer(hours: number, minutes: number) {
-      this.timeBuffer.hours = hours
-      this.timeBuffer.minutes = minutes
-      this.timeBuffer.seconds = 0
+    startTimer() {
       this.calculeteTime()
     },
     stopTimer() {
@@ -42,18 +38,15 @@ export const useTimeStore = defineStore('time', {
     calculeteTime() {
       const AudioStore = useAudioStore()
       this.intervalId = setInterval(() => {
-        if (this.timeBuffer.minutes === 0 && this.timeBuffer.seconds === 0) {
-          this.timeBuffer.hours -= 1
-          this.timeBuffer.minutes = 59
-          this.timeBuffer.seconds = 60
-        } else if (this.timeBuffer.seconds === 0) {
-          this.timeBuffer.minutes -= 1
-          this.timeBuffer.seconds = 60
-        }
+        
+        const currentTime = new Date();
+        let res = this.targetDate.getTime() - currentTime.getTime()
 
-        this.timeBuffer.seconds -= 1
-
-        if (this.timeBuffer.hours < 0) {
+        this.timeBuffer.hours = parseInt(String((res/1000)/3600))
+        this.timeBuffer.minutes = parseInt( String(((res/1000)/60) -  this.timeBuffer.hours * 60))
+        this.timeBuffer.seconds = parseInt(String((res/1000)%60))
+        
+        if (res <= 0) {
           clearInterval(this.intervalId)
           this.timeBuffer = {
             hours: 0,
