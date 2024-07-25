@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTimeStore } from '../store/timer.ts'
+import { useTimeStore } from '@/store/timer.ts'
 import { computed } from 'vue'
 
 const timeStore = useTimeStore()
@@ -12,6 +12,7 @@ function addNewTimer() {
         minutes: 0,
         seconds: 0,
       },
+      name: 'default1',
       dateWhenTimerStart: new Date(),
       targetDate: new Date(),
       intervalId: 0,
@@ -34,7 +35,7 @@ function switchTimer(index: number) {
       {{ index }}
       {{ timer }}
     </div>
-    <button @click="addNewTimer()">Новый таймер</button>
+    <v-buton @click="addNewTimer()">Новый таймер</v-buton>
   </div>
 </template>
 

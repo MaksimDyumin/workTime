@@ -1,9 +1,21 @@
 import { defineStore } from 'pinia'
 import { useAudioStore } from "./audio";
+import { ref } from 'vue';
+import { Timer } from './store.types';
+
+interface State {
+  timers: Array<Timer>
+  indexActiveTimer: number
+}
+interface Getters {
+  getActiveTimer: Number
+}
+type TiFunction = (a: string) => void;
+
 
 
 export const useTimeStore = defineStore('time', {
-  state: () => ({
+  state: (): State => ({
     timers: [
       {
         timeBuffer: {
@@ -11,6 +23,7 @@ export const useTimeStore = defineStore('time', {
           minutes: 0,
           seconds: 0,
         },
+        name: '',
         dateWhenTimerStart: new Date(),
         targetDate: new Date(),
         intervalId: 0,
@@ -20,10 +33,9 @@ export const useTimeStore = defineStore('time', {
     indexActiveTimer: 0
   }),
 
-  // getters: {
-  //   getterstTimeBuffer: (state) => state.timeBuffer,
-  //   getterstTime: (state) => state.time,
-  // },
+  getters: {
+    getActiveTimer: (state) => state.timers[state.indexActiveTimer] ,
+  },
 
   actions: {
     startTimer(indexActiveTimer: number) {

@@ -1,48 +1,17 @@
-<template>
-  <div class="dual-timer-container">
-    {{ timer }}
-    <div class="menu-container">
-      <input v-model="timer.time" type="time" class="timer">
-      <button @click="startTimer">Начать</button>
-      <button v-if="!isTimeStopped" @click="stopTimer">Пауза</button>
-      <button v-else @click="runTimer">Продолжить</button>
-      <button @click="resetTimer">Сброс</button>
-    </div>
-    <div class="timers-container">
-      <div class="reversed">
-        <label>Прошло</label>
-        <TimeDisplay :isReversed="true" :timeStore="timer" />
-      </div>
-      <div class="normal">
-        <label>Осталось</label>
-        <TimeDisplay :isReversed="false" :timeStore="timer" />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import TimeDisplay from './TimeDisplay.vue'
 import { ref, computed } from 'vue'
-import type { Ref, PropType } from 'vue'
-import { useTimeStore } from '../store/timer.ts'
-import type { Timer, Timers } from '../store/store.types.ts'
+import type { Ref, ComputedRef } from 'vue'
+import { useTimeStore } from '@/store/timer.ts'
+import type { Timer, Timers } from '@/store/store.types.ts'
 
 const timeStore = useTimeStore()
 const isTimeStopped: Ref<boolean> = ref(false)
 
-let timer = computed(()=>{return timeStore.timers[timeStore.indexActiveTimer]}) 
+let timer: ComputedRef<Timer> = computed(()=>{return timeStore.getActiveTimer})
 
-//   const props = defineProps({
-//   timer: {
-//     type: Object as PropType<Timer>,
-//   },
-// });
 
 function startTimer() {
-  console.log(23213);
-  console.log(timer.value);
-  
   let [hours, minutes] = timer.value.time.split(':');
   timer.value.dateWhenTimerStart = new Date()
   let dwts = new Date(timer.value.dateWhenTimerStart.getTime())
@@ -51,7 +20,6 @@ function startTimer() {
   timer.value.targetDate = dwts
   timeStore.startTimer(timeStore.indexActiveTimer)
 }
-
 function stopTimer() {
   timeStore.stopTimer(timeStore.indexActiveTimer)
   isTimeStopped.value = true
@@ -63,8 +31,31 @@ function runTimer() {
 function resetTimer() {
   timeStore.clearTimer(timeStore.indexActiveTimer)
 }
-
 </script>
+
+
+<template>
+  <div class="dual-timer-container">
+    <div class="menu-container">
+      <input v-model="timer.time" type="time" class="timer">
+      <button @click="startTimer">Начать</button>
+      <button v-if="!isTimeStopped" @click="stopTimer">Пауза</button>
+      <button v-else @click="runTimer">Продолжить</button>
+      <button @click="resetTimer">Сброс</button>
+    </div>
+    <div class="timers-container">
+      <div class="reversed">
+        <label>Прошло</label>
+        <TimeDisplay :isReversed="true" :timer="timer" />
+      </div>
+      <div class="normal">
+        <label>Осталось</label>
+        <TimeDisplay :isReversed="false" :timer="timer" />
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <style scoped>
 .menu-container {

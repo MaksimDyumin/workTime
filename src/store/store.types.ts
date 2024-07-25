@@ -11,7 +11,8 @@ export type Timer = {
   dateWhenTimerStart: Date,
   targetDate: Date,
   intervalId: number,
-  time: string
+  time: string,
+  name: string
 }
 
 export type Timers = Array<Timer>

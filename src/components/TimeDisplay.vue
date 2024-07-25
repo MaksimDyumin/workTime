@@ -1,29 +1,33 @@
 <script setup lang="ts">
 import { useTimeStore } from '../store/timer.ts'
 import { computed } from 'vue'
+import type { Timer } from '../store/store.types.ts';
+import type { PropType, ComputedRef } from 'vue';
 
-// const timeStore = useTimeStore()
+const timeStore = useTimeStore()
 const props = defineProps({
   isReversed: Boolean,
-  timeStore: Object,
 });
+const timer: ComputedRef<Timer> = computed(() => {
+  return timeStore.getActiveTimer
+}) 
 
 const time = computed(() => {
   if (props.isReversed) {
-    let [hours, minutes] = props.timeStore.time.split(':');
+    let [hours, minutes] = timer.value.time.split(':');
 
     let summSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60
-    let summStoreSeconds = props.timeStore.timeBuffer.hours * 3600 + props.timeStore.timeBuffer.minutes * 60 + props.timeStore.timeBuffer.seconds
-
+    let summStoreSeconds = timer.value.timeBuffer.hours * 3600 + timer.value.timeBuffer.minutes * 60 + timer.value.timeBuffer.seconds
     let result = summSeconds - summStoreSeconds
 
     let reversedHours = parseInt(String(result / 3600))
     let reversedMinutes = parseInt(String(parseInt(String(result % 3600)) / 60))
     let reversedSeconds = parseInt(String(result % 3600)) % 60
+    
     return `${reversedHours}:${reversedMinutes}:${reversedSeconds}`
   }
 
-  return `${props.timeStore.timeBuffer.hours}:${props.timeStore.timeBuffer.minutes}:${props.timeStore.timeBuffer.seconds}`
+  return `${timer.value.timeBuffer.hours}:${timer.value.timeBuffer.minutes}:${timer.value.timeBuffer.seconds}`
 })
 
 </script>

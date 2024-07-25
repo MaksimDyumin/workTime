@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import TimeDisplay from './components/TimeDisplay.vue'
-import { ref } from 'vue'
-import type { Ref } from 'vue'
 import { useTimeStore } from './store/timer.ts'
 import DualTimer from './components/DualTimer.vue'
-import SwitchListTimers from './components/SwitchListTimers.vue'
+import SwitchListTimers from '@/components/sidebar/SwitchListTimers.vue'
+import CardComp from '@/components/CardComp.vue'
+import Sidebar from '@/components/sidebar/SideBar.vue'
 
 const timeStore = useTimeStore()
 
@@ -12,21 +11,27 @@ const timeStore = useTimeStore()
 </script>
 
 <template>
-  <div class="main-container">
+  <Sidebar>
     <SwitchListTimers />
-    <DualTimer :timer="timeStore.timers[0]"/>
+  </Sidebar>
+  <div class="main-container">
+    <CardComp>
+      <DualTimer :timer="timeStore.timers[0]" />
+    </CardComp>
   </div>
 </template>
 
 <style scoped>
 .main-container {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100vw;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 1;
 }
-
 </style>
