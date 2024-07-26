@@ -23,8 +23,6 @@ function addNewTimer() {
 
 function switchTimer(index: number) {
   timeStore.indexActiveTimer = index
-  console.log(timeStore.indexActiveTimer);
-
 }
 
 </script>
@@ -32,57 +30,50 @@ function switchTimer(index: number) {
 <template>
   <div class="switch-container">
     <div @click="switchTimer(index)" class="timer-swicher" v-for="timer, index in timeStore.timers">
-      {{ index }}
-      {{ timer }}
+      <v-card class="card-in-sidebar">
+        <div class="info-container">
+          <span><b style="margin-right: 6px;">Название:</b> {{ timer.name }}</span>
+          <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore?.getTimeString(index) }}</span>
+        </div>
+        <div class="action-container">
+          <v-button>Настроить кнопку</v-button>
+        </div>
+      </v-card>
     </div>
-    <v-buton @click="addNewTimer()">Новый таймер</v-buton>
+    <v-button class="new-timer-button" @click="addNewTimer()">Новый таймер</v-button>
   </div>
 </template>
 
 <style scoped>
-.timer-swicher {
-  border: 1px solid black;
+.switch-container {
+  width: 100%;
 }
 
-button {
-  background-color: #0000ff;
+.card-in-sidebar {
+  background-color: #e7e5e5 !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4) !important;
+  
 }
-
-.timer-container {
+.info-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column ;
+}
+
+.card-in-sidebar span {
+  text-align: start;
+  width: 100%;
+}
+
+.action-container{
+  width: 62%;
+  height: 100%;
+  padding: 5px;
+  display: flex;
   align-items: center;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 200px;
-  margin: 0 auto;
+  justify-content: flex-end;
 }
 
-.time {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 2rem;
-  color: #333;
-}
-
-.hours,
-.minutes,
-.seconds {
-  display: inline-block;
-  padding: 0 5px;
-}
-
-/* Example of individual styles for hours, minutes, and seconds */
-.hours {
-  color: #ff0000;
-}
-
-.minutes {
-  color: #00ff00;
-}
-
-.seconds {
-  color: #0000ff;
+.new-timer-button{
+  margin-top: 20px;
 }
 </style>

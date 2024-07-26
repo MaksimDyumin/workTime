@@ -1,13 +1,11 @@
-<template>
-<button><slot /></button>
-</template>
-
-<script>
-export default {
-    
-}
+<script setup lang="ts">
 </script>
 
+<template>
+    <button>
+        <slot></slot>
+    </button>
+</template>
 
 <style>
 button {

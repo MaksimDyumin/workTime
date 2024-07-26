@@ -2,12 +2,11 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { createPinia } from 'pinia'
-
-import Button from './plugins/button/button'
+import {useOwnComponents} from './plugins/button/ownComponents'
 
 const pinia = createPinia()
 const app = createApp(App)
 
+useOwnComponents(app)
 app.use(pinia)
-app.use(Button)
 app.mount('#app')

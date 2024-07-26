@@ -2,22 +2,20 @@
 import { useTimeStore } from './store/timer.ts'
 import DualTimer from './components/DualTimer.vue'
 import SwitchListTimers from '@/components/sidebar/SwitchListTimers.vue'
-import CardComp from '@/components/CardComp.vue'
 import Sidebar from '@/components/sidebar/SideBar.vue'
+import SidebarActivator from './components/sidebar/SidebarActivator.vue';
+
 
 const timeStore = useTimeStore()
-
-
 </script>
 
 <template>
+  <SidebarActivator></SidebarActivator>
   <Sidebar>
     <SwitchListTimers />
   </Sidebar>
   <div class="main-container">
-    <CardComp>
       <DualTimer :timer="timeStore.timers[0]" />
-    </CardComp>
   </div>
 </template>
 
@@ -34,4 +32,4 @@ const timeStore = useTimeStore()
   text-align: center;
   z-index: 1;
 }
-</style>
+</style>./plugins/button/ButtonComp.vue/index.ts
