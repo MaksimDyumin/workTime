@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/store/sidebar';
-import { ref } from 'vue';
+import { onMounted, Ref, ref, watch } from 'vue';
 
 const sidebarStore = useSidebarStore()
+const sidebarHtmlElement: Ref<null | HTMLElement> = ref(null)
 
+onMounted(()=> {
+  sidebarStore.element = sidebarHtmlElement.value
+})
 </script>
 
 <template>
-  <Transition mode="out-in">
-    <div v-if="sidebarStore.isShown" class="sidebar-container">
+  <Transition name="sidebar" ref="sidebarHtmlElement" mode="out-in">
+    <div v-show="sidebarStore.isShown" class="sidebar-container">
       <slot />
     </div>
   </Transition>
@@ -25,19 +29,20 @@ const sidebarStore = useSidebarStore()
   background-color: #f8f9fa;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 2;
   margin-left: 50px;
-  transition: all 0.2s ease-in-out; 
+  transition: all 0.2s ease-in-out;
 }
 
-.v-enter-active,
-.v-leave-active {
+.sidebar-enter-active,
+.sidebar-leave-active {
   margin-left: 50px;
 }
 
-.v-enter-from,
-.v-leave-to {
+.sidebar-enter-from,
+.sidebar-leave-to {
   margin-left: -500px;
 }
 </style>

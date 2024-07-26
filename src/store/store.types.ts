@@ -12,7 +12,8 @@ export type Timer = {
   targetDate: Date,
   intervalId: number,
   time: string,
-  name: string
+  name: string,
+  isTimeStopped: boolean
 }
 
 export type Timers = Array<Timer>

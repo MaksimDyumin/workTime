@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/store/sidebar';
+import { onMounted } from 'vue';
 
 const sidebarStore = useSidebarStore()
+
+function switchSidebarVisible() {
+    setTimeout(() => {
+        sidebarStore.isShown = !sidebarStore.isShown
+    }, 50);
+}
+
+
 </script>
 
 <template>
-    <div @click="sidebarStore.isShown = !sidebarStore.isShown" class="activatore-container">
+    <div @click="switchSidebarVisible()" class="activatore-container">
     </div>
 </template>
 

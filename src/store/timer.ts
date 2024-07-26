@@ -5,7 +5,7 @@ import { Timer } from './store.types';
 
 interface State {
   timers: Array<Timer>
-  indexActiveTimer: number
+  indexActiveTimer: number,
 }
 interface Getters {
   getActiveTimer: Number
@@ -26,7 +26,8 @@ export const useTimeStore = defineStore('time', {
         dateWhenTimerStart: new Date(),
         targetDate: new Date(),
         intervalId: 0,
-        time: '00:00'
+        time: '00:00',
+        isTimeStopped: false
       },
     ],
     indexActiveTimer: 0
@@ -34,20 +35,16 @@ export const useTimeStore = defineStore('time', {
 
   getters: {
     getActiveTimer: (state) => state.timers[state.indexActiveTimer],
-    getTimeString: (state: any,) => {
+    // getTimeString: (state: any,) => {
       
-    },
+    // },
   },
 
   actions: {
-    // getTimeString(timerIndex: number) {
-    //   const timerBuffer = this.timers[timerIndex].timeBuffer
-    //   return `${timerBuffer.hours}:${timerBuffer.minutes}:${timerBuffer.seconds}`
-    // },
-    // getReverseTimeString(timerIndex: number) {
-    //   const timerBuffer = this.timers[timerIndex].timeBuffer
-    //   return `${timerBuffer.hours}:${timerBuffer.minutes}:${timerBuffer.seconds}`
-    // },
+    getTimeString(index: number) {
+      const timeBuffer = this.timers[index].timeBuffer
+      return `${timeBuffer.hours}:${timeBuffer.minutes}:${timeBuffer.seconds}`
+    },
     startTimer(indexActiveTimer: number) {
       this.calculeteTime(indexActiveTimer)
     },

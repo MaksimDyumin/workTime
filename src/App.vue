@@ -4,7 +4,7 @@ import DualTimer from './components/DualTimer.vue'
 import SwitchListTimers from '@/components/sidebar/SwitchListTimers.vue'
 import Sidebar from '@/components/sidebar/SideBar.vue'
 import SidebarActivator from './components/sidebar/SidebarActivator.vue';
-
+import ModalWindow from './components/ModalWindow.vue';
 
 const timeStore = useTimeStore()
 </script>
@@ -17,6 +17,7 @@ const timeStore = useTimeStore()
   <div class="main-container">
       <DualTimer :timer="timeStore.timers[0]" />
   </div>
+  <ModalWindow />
 </template>
 
 <style scoped>

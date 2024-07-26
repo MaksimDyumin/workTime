@@ -6,10 +6,9 @@ import { useTimeStore } from '@/store/timer.ts'
 import type { Timer, Timers } from '@/store/store.types.ts'
 
 const timeStore = useTimeStore()
-const isTimeStopped: Ref<boolean> = ref(false)
 
-let timer: ComputedRef<Timer> = computed(()=>{return timeStore.getActiveTimer})
-
+let timer: ComputedRef<Timer> = computed(() => { return timeStore.getActiveTimer })
+const activeTimer = computed(() => timeStore.getActiveTimer)
 
 function startTimer() {
   let [hours, minutes] = timer.value.time.split(':');
@@ -22,14 +21,16 @@ function startTimer() {
 }
 function stopTimer() {
   timeStore.stopTimer(timeStore.indexActiveTimer)
-  isTimeStopped.value = true
+  activeTimer.value.isTimeStopped = true
+
 }
 function runTimer() {
   timeStore.calculeteTime(timeStore.indexActiveTimer)
-  isTimeStopped.value = false
+  activeTimer.value.isTimeStopped = false
 }
 function resetTimer() {
   timeStore.clearTimer(timeStore.indexActiveTimer)
+  activeTimer.value.isTimeStopped = false
 }
 </script>
 
@@ -39,7 +40,7 @@ function resetTimer() {
     <div class="menu-container">
       <input v-model="timer.time" type="time" class="timer">
       <button @click="startTimer">Начать</button>
-      <button v-if="!isTimeStopped" @click="stopTimer">Пауза</button>
+      <button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</button>
       <button v-else @click="runTimer">Продолжить</button>
       <button @click="resetTimer">Сброс</button>
     </div>
