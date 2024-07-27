@@ -26,6 +26,7 @@ export const useTimeStore = defineStore('time', {
         targetDate: new Date(),
         intervalId: 0,
         time: '00:00',
+        timeWhenStopped: null,
         isTimeStopped: false
       },
     ],
@@ -64,6 +65,7 @@ export const useTimeStore = defineStore('time', {
     },
     stopTimer(indexActiveTimer: number) {
       const timer = this.timers[indexActiveTimer]
+      timer.timeWhenStopped = new Date()
       clearInterval(timer.intervalId)
     },
     clearTimer(indexActiveTimer: number) {
@@ -96,7 +98,7 @@ export const useTimeStore = defineStore('time', {
           }
           AudioStore.play()
         } 1
-      }, 1010)
+      }, 1000)
     }
   },
 })

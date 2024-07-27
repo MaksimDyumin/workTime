@@ -28,6 +28,9 @@ function stopTimer() {
   activeTimer.value.isTimeStopped = true
 }
 function runTimer() {
+  const timer = timeStore.getActiveTimer
+  timer.targetDate = new Date(timer.targetDate.getTime() + (new Date().getTime() - timer.timeWhenStopped.getTime()))
+
   timeStore.calculeteTime(timeStore.indexActiveTimer)
   activeTimer.value.isTimeStopped = false
 }
