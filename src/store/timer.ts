@@ -12,7 +12,6 @@ interface Getters {
 }
 type TiFunction = (a: string) => void;
 
-
 export const useTimeStore = defineStore('time', {
   state: (): State => ({
     timers: [

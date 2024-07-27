@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import TimeDisplay from './TimeDisplay.vue'
 import { ref, computed } from 'vue'
-import type { Ref, ComputedRef } from 'vue'
+import type { ComputedRef } from 'vue'
 import { useTimeStore } from '@/store/timer.ts'
-import type { Timer, Timers } from '@/store/store.types.ts'
+import type { Timer } from '@/store/store.types.ts'
+import { useAudioStore } from '@/store/audio.js';
 
 const timeStore = useTimeStore()
 
@@ -18,11 +19,13 @@ function startTimer() {
   dwts.setHours(dwts.getHours() + Number(hours))
   timer.value.targetDate = dwts
   timeStore.startTimer(timeStore.indexActiveTimer)
+
+  const audioStore = useAudioStore()
+  audioStore.playBackgroundAudio()
 }
 function stopTimer() {
   timeStore.stopTimer(timeStore.indexActiveTimer)
   activeTimer.value.isTimeStopped = true
-
 }
 function runTimer() {
   timeStore.calculeteTime(timeStore.indexActiveTimer)

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { useTimeStore } from '@/store/timer.ts'
-import { computed } from 'vue'
 
 const timeStore = useTimeStore()
-const activeTimer = computed(() => timeStore.getActiveTimer)
 
 function addNewTimer() {
   timeStore.timers.push(
@@ -29,7 +27,6 @@ function switchTimer(index: number) {
 
 function configurateTimer(index: number, e: Event) {
   e.stopPropagation();
-
 }
 
 </script>
