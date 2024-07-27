@@ -11,7 +11,7 @@ function addNewTimer() {
         minutes: 0,
         seconds: 0,
       },
-      name: 'default',
+      name: 'Такая ахуевшая задача что я не могу помогите плиз я ебал',
       dateWhenTimerStart: new Date(),
       targetDate: new Date(),
       intervalId: 0,
@@ -34,18 +34,27 @@ function configurateTimer(index: number, e: Event) {
 <template>
   <div class="switch-container">
     <transition-group name="timerCard" mode="out-in">
-      <div @click="switchTimer(index)" 
-          :class="`timer-swicher ${index === timeStore.indexActiveTimer ? 'active' : ''}`" v-for="timer, index in timeStore.timers"
-          :key="index">
+      <div @click="switchTimer(index)" :class="`timer-swicher ${index === timeStore.indexActiveTimer ? 'active' : ''}`"
+        v-for="timer, index in timeStore.timers" :key="index">
+
         <v-card :class="`card-in-sidebar ${index === timeStore.indexActiveTimer ? 'active-card' : ''}`">
-          <div class="info-container">
-            <span><b style="margin-right: 6px;">Название:</b> {{ timer.name }}</span>
-            <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore.getTimeString(index) }}</span>
+          <h3>{{ timer.name }}</h3>
+
+          <div class="abvgd">
+
+            <div class="info-container">
+              <span><b style="margin-right: 6px;">Прошло:</b> {{ timeStore.getReversedTimeString(index) }}</span>
+              <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore.getTimeString(index) }}</span>
+            </div>
+
+            <div class="action-container">
+              <v-button @click="configurateTimer(index, $event)">Настроить кнопку</v-button>
+            </div>
+
           </div>
-          <div class="action-container">
-            <v-button @click="configurateTimer(index, $event)">Настроить кнопку</v-button>
-          </div>
+
         </v-card>
+
       </div>
     </transition-group>
     <v-button class="new-timer-button" @click="addNewTimer()">Новый таймер</v-button>
@@ -63,8 +72,22 @@ function configurateTimer(index: number, e: Event) {
   transition: all 0.3s;
 }
 
+.abvgd{
+  display: flex;
+  width: 100%;
+}
+
 .timer-swicher+.timer-swicher {
   margin-top: 15px;
+}
+
+.card-in-sidebar {
+  flex-direction: column;
+}
+.card-in-sidebar h3 {
+  margin: 0px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .timer-swicher:hover {
@@ -105,10 +128,11 @@ function configurateTimer(index: number, e: Event) {
   border-color: gray;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: scale(1.05);
-  
+
 }
+
 .active-card {
-  background-color: #b0aeae!important;
+  background-color: #b0aeae !important;
 }
 
 .timerCard-enter-active {

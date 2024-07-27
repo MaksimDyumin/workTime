@@ -35,7 +35,7 @@ export const useTimeStore = defineStore('time', {
   getters: {
     getActiveTimer: (state) => state.timers[state.indexActiveTimer],
     // getTimeString: (state: any,) => {
-      
+
     // },
   },
 
@@ -43,6 +43,21 @@ export const useTimeStore = defineStore('time', {
     getTimeString(index: number) {
       const timeBuffer = this.timers[index].timeBuffer
       return `${timeBuffer.hours}:${timeBuffer.minutes}:${timeBuffer.seconds}`
+    },
+    getReversedTimeString(index: number) {
+      const timer = this.timers[index]
+
+      let [hours, minutes] = timer.time.split(':');
+
+      let summSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60
+      let summStoreSeconds = timer.timeBuffer.hours * 3600 + timer.timeBuffer.minutes * 60 + timer.timeBuffer.seconds
+      let result = summSeconds - summStoreSeconds
+
+      let reversedHours = parseInt(String(result / 3600))
+      let reversedMinutes = parseInt(String(parseInt(String(result % 3600)) / 60))
+      let reversedSeconds = parseInt(String(result % 3600)) % 60
+
+      return `${reversedHours}:${reversedMinutes}:${reversedSeconds}`
     },
     startTimer(indexActiveTimer: number) {
       this.calculeteTime(indexActiveTimer)
@@ -80,7 +95,7 @@ export const useTimeStore = defineStore('time', {
             seconds: 0,
           }
           AudioStore.play()
-        }1
+        } 1
       }, 1010)
     }
   },
