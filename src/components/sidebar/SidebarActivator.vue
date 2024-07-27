@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/store/sidebar';
-import { onMounted } from 'vue';
 
 const sidebarStore = useSidebarStore()
 

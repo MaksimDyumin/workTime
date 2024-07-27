@@ -2,7 +2,7 @@
 import { useTimeStore } from '../store/timer.ts'
 import { computed } from 'vue'
 import type { Timer } from '../store/store.types.ts';
-import type { PropType, ComputedRef } from 'vue';
+import type { ComputedRef } from 'vue';
 
 const timeStore = useTimeStore()
 const props = defineProps({

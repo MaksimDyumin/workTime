@@ -10,7 +10,7 @@ export type Timer = {
   timeBuffer: TimeBuffer,
   dateWhenTimerStart: Date,
   targetDate: Date,
-  intervalId: number,
+  intervalId: NodeJS.Timeout,
   time: string,
   name: string,
   isTimeStopped: boolean,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/store/sidebar';
-import { onMounted, Ref, ref, watch } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 
 const sidebarStore = useSidebarStore()
 const sidebarHtmlElement: Ref<null | HTMLElement> = ref(null)

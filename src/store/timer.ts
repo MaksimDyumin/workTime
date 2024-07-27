@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useAudioStore } from "./audio";
-import { ref } from 'vue';
 import { Timer } from './store.types';
 
 interface State {
@@ -8,10 +7,7 @@ interface State {
   indexActiveTimer: number,
   sidebarManagingTimer: number,
 }
-interface Getters {
-  getActiveTimer: Number
-}
-type TiFunction = (a: string) => void;
+
 
 export const useTimeStore = defineStore('time', {
   state: (): State => ({
@@ -25,7 +21,7 @@ export const useTimeStore = defineStore('time', {
         name: 'default',
         dateWhenTimerStart: new Date(),
         targetDate: new Date(),
-        intervalId: 0,
+        intervalId: new NodeJS.Timeout(),
         time: '00:00',
         timeWhenStopped: null,
         isTimeStopped: false

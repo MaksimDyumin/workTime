@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TimeDisplay from './TimeDisplay.vue'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import type { ComputedRef } from 'vue'
 import { useTimeStore } from '@/store/timer.ts'
 import type { Timer } from '@/store/store.types.ts'

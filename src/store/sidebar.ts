@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { Component } from 'vue'
 
 
 interface State {
