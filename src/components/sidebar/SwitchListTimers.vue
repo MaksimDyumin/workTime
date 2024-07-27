@@ -14,7 +14,7 @@ function addNewTimer() {
         minutes: 0,
         seconds: 0,
       },
-      name: 'Такая ахуевшая задача что я не могу помогите плиз я ебал',
+      name: 'Новый таймер',
       dateWhenTimerStart: new Date(),
       targetDate: new Date(),
       intervalId: 0,

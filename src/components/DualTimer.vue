@@ -45,10 +45,10 @@ function resetTimer() {
   <div class="dual-timer-container">
     <div class="menu-container">
       <input v-model="timer.time" type="time" class="timer">
-      <button @click="startTimer">Начать</button>
-      <button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</button>
-      <button v-else @click="runTimer">Продолжить</button>
-      <button @click="resetTimer">Сброс</button>
+      <v-button @click="startTimer">Начать</v-button>
+      <v-button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</v-button>
+      <v-button v-else @click="runTimer">Продолжить</v-button>
+      <v-button @click="resetTimer">Сброс</v-button>
     </div>
     <div class="timers-container">
       <div class="reversed">

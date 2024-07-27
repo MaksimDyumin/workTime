@@ -1,8 +1,18 @@
 <script setup lang="ts">
+import { useTimeStore } from '@/store/timer';
+
+
+const timreStore = useTimeStore()
+
+function savechanges() {
+    setTimeout(()=>{
+        localStorage.setItem('timers', JSON.stringify(timreStore.timers))
+    }, 50)
+}
 </script>
 
 <template>
-    <button>
+    <button @click="savechanges()">
         <slot></slot>
     </button>
 </template>

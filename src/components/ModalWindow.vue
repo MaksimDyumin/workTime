@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import TimeDisplay from './TimeDisplay.vue'
-import { ref, computed } from 'vue'
-import type { Ref, ComputedRef } from 'vue'
-import { useTimeStore } from '@/store/timer.ts'
-import type { Timer, Timers } from '@/store/store.types.ts'
 import { useModalStore } from '@/store/modal'
 
 
 const modalStore = useModalStore()
-
 </script>
 
 

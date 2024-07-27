@@ -8,6 +8,17 @@ import ModalWindow from './components/ModalWindow.vue';
 import { useAudioStore } from '@/store/audio.js';
 
 const timeStore = useTimeStore()
+
+setInterval(()=>{
+  localStorage.setItem('timers', JSON.stringify(timeStore.timers))
+}, 10000)
+
+const timersFromLocalstorage = localStorage.getItem('timers')
+
+if (timersFromLocalstorage) {
+  timeStore.timers = JSON.parse(timersFromLocalstorage) 
+}
+
 </script>
 
 <template>
