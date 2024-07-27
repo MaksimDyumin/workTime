@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer.ts'
+import ManageTimer from '../modals/ManageTimer.vue';
 
 const timeStore = useTimeStore()
+const modalStore = useModalStore()
 
 function addNewTimer() {
   timeStore.timers.push(
@@ -16,6 +19,7 @@ function addNewTimer() {
       targetDate: new Date(),
       intervalId: 0,
       time: '00:00',
+      timeWhenStopped: null,
       isTimeStopped: false
     },
   )
@@ -27,6 +31,10 @@ function switchTimer(index: number) {
 
 function configurateTimer(index: number, e: Event) {
   e.stopPropagation();
+  timeStore.sidebarManagingTimer = index
+  modalStore.component = ManageTimer
+  modalStore.isModalVisible = true
+
 }
 
 </script>

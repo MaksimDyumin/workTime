@@ -6,6 +6,7 @@ import { Timer } from './store.types';
 interface State {
   timers: Array<Timer>
   indexActiveTimer: number,
+  sidebarManagingTimer: number,
 }
 interface Getters {
   getActiveTimer: Number
@@ -30,7 +31,9 @@ export const useTimeStore = defineStore('time', {
         isTimeStopped: false
       },
     ],
-    indexActiveTimer: 0
+    indexActiveTimer: 0,
+    sidebarManagingTimer: 0,
+
   }),
 
   getters: {
