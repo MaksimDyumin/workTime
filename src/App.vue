@@ -5,7 +5,6 @@ import SwitchListTimers from '@/components/sidebar/SwitchListTimers.vue'
 import Sidebar from '@/components/sidebar/SideBar.vue'
 import SidebarActivator from './components/sidebar/SidebarActivator.vue';
 import ModalWindow from './components/ModalWindow.vue';
-import { useAudioStore } from '@/store/audio.js';
 
 const timeStore = useTimeStore()
 

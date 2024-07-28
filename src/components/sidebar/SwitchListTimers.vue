@@ -19,7 +19,7 @@ function addNewTimer() {
       targetDate: new Date(),
       intervalId: 0,
       time: '00:00',
-      timeWhenStopped: null,
+      timeWhenStopped: new Date(),
       isTimeStopped: false
     },
   )

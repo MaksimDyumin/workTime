@@ -23,7 +23,7 @@ export const useTimeStore = defineStore('time', {
         targetDate: new Date(),
         intervalId: new NodeJS.Timeout(),
         time: '00:00',
-        timeWhenStopped: null,
+        timeWhenStopped: new Date(),
         isTimeStopped: false
       },
     ],

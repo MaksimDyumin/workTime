@@ -10,11 +10,11 @@ export type Timer = {
   timeBuffer: TimeBuffer,
   dateWhenTimerStart: Date,
   targetDate: Date,
-  intervalId: NodeJS.Timeout,
+  intervalId: NodeJS.Timeout | number,
   time: string,
   name: string,
   isTimeStopped: boolean,
-  timeWhenStopped: Date | null
+  timeWhenStopped: Date
 }
 
 export type Timers = Array<Timer>
