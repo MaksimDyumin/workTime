@@ -21,7 +21,7 @@ export const useTimeStore = defineStore('time', {
         name: 'default',
         dateWhenTimerStart: new Date(),
         targetDate: new Date(),
-        intervalId: new NodeJS.Timeout(),
+        intervalId: 0,
         time: '00:00',
         timeWhenStopped: new Date(),
         isTimeStopped: false
