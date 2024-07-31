@@ -2,7 +2,6 @@
 import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer.ts'
 import ManageTimer from '../modals/ManageTimer.vue';
-import { Timer } from '@/store/store.types';
 
 const timeStore = useTimeStore()
 const modalStore = useModalStore()

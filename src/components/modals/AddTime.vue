@@ -3,7 +3,6 @@
 <script setup lang="ts">
 import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer';
-import type { Timer } from '@/store/store.types';
 import { ref } from 'vue';
 
 const timerStore = useTimeStore()
