@@ -15,6 +15,7 @@ let timer: ComputedRef<Timer> = computed(() => { return timeStore.getActiveTimer
 const activeTimer = computed(() => timeStore.getActiveTimer)
 const modalStore = useModalStore()
 
+
 function startTimer() {
   let [hours, minutes] = timer.value.time.split(':');
   timer.value.dateWhenTimerStart = new Date()
@@ -52,7 +53,7 @@ function showAddTimeModal() {
 
 
 <template>
-  <div class="dual-timer-container">
+  <div v-if="timer" class="dual-timer-container">
     <div class="menu-container">
       <input v-model="timer.time" type="time" class="timer">
       <v-button v-if="!activeTimer.isSessionStarted" @click="startTimer">Начать</v-button>

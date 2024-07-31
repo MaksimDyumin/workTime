@@ -2,13 +2,16 @@
 import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer.ts'
 import ManageTimer from '../modals/ManageTimer.vue';
+import { useIdStore } from '@/store/ids';
 
 const timeStore = useTimeStore()
 const modalStore = useModalStore()
+const idStore = useIdStore()
 
 function addNewTimer() {
   timeStore.timers.push(
     {
+      id: idStore.generateId(),
       timeBuffer: {
         hours: 0,
         minutes: 0,
@@ -41,10 +44,11 @@ function configurateTimer(index: number, e: Event) {
 
 <template>
   <div class="switch-container">
+    
     <transition-group name="timerCard" mode="out-in">
       <div @click="switchTimer(index)" :class="`timer-swicher ${index === timeStore.indexActiveTimer ? 'active' : ''}`"
-        v-for="timer, index in timeStore.timers" :key="index">
-
+        v-for="timer, index in timeStore.timers" :key="timer.id">
+        
         <v-card :class="`card-in-sidebar ${index === timeStore.indexActiveTimer ? 'active-card' : ''}`">
           <h3>{{ timer.name }}</h3>
 

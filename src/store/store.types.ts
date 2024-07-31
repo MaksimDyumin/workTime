@@ -7,6 +7,7 @@ export type TimeBuffer = {
 }
 
 export type Timer = {
+  id: number,
   timeBuffer: TimeBuffer,
   dateWhenTimerStart: Date,
   targetDate: Date,
@@ -19,6 +20,7 @@ export type Timer = {
 }
 
 export type LocalstorageTimer = {
+  id: number,
   timeBuffer: TimeBuffer,
   dateWhenTimerStart: string,
   targetDate: string,

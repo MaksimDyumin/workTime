@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useAudioStore } from "./audio";
 import { Timer } from './store.types';
+import { useIdStore } from './ids';
 
 interface State {
   timers: Array<Timer>
@@ -11,26 +12,9 @@ interface State {
 
 export const useTimeStore = defineStore('time', {
   state: (): State => ({
-    timers: [
-      {
-        timeBuffer: {
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-        },
-        name: 'default',
-        dateWhenTimerStart: new Date(),
-        targetDate: new Date(),
-        intervalId: 0,
-        time: '00:00',
-        timeWhenStopped: new Date(),
-        isTimeStopped: false,
-        isSessionStarted: false
-      },
-    ],
+    timers: [],
     indexActiveTimer: 0,
     sidebarManagingTimer: 0,
-
   }),
 
   getters: {
