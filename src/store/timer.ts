@@ -24,7 +24,8 @@ export const useTimeStore = defineStore('time', {
         intervalId: 0,
         time: '00:00',
         timeWhenStopped: new Date(),
-        isTimeStopped: false
+        isTimeStopped: false,
+        isSessionStarted: false
       },
     ],
     indexActiveTimer: 0,
@@ -79,11 +80,17 @@ export const useTimeStore = defineStore('time', {
     calculeteTime(indexActiveTimer: number) {
       const timer = this.timers[indexActiveTimer]
       const AudioStore = useAudioStore()
+
+      const currentTime = new Date();
+      let res = timer.targetDate.getTime() - currentTime.getTime()
+      timer.timeBuffer.hours = parseInt(String((res / 1000) / 3600))
+      timer.timeBuffer.minutes = parseInt(String(((res / 1000) / 60) - timer.timeBuffer.hours * 60))
+      timer.timeBuffer.seconds = parseInt(String((res / 1000) % 60))
+
       timer.intervalId = setInterval(() => {
 
         const currentTime = new Date();
         let res = timer.targetDate.getTime() - currentTime.getTime()
-
         timer.timeBuffer.hours = parseInt(String((res / 1000) / 3600))
         timer.timeBuffer.minutes = parseInt(String(((res / 1000) / 60) - timer.timeBuffer.hours * 60))
         timer.timeBuffer.seconds = parseInt(String((res / 1000) % 60))
@@ -97,7 +104,7 @@ export const useTimeStore = defineStore('time', {
           }
           AudioStore.play()
         } 1
-      }, 1000)
+      }, 500)
     }
   },
 })

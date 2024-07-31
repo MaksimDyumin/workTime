@@ -14,7 +14,21 @@ export type Timer = {
   time: string,
   name: string,
   isTimeStopped: boolean,
-  timeWhenStopped: Date
+  timeWhenStopped: Date,
+  isSessionStarted: boolean,
+}
+
+export type LocalstorageTimer = {
+  timeBuffer: TimeBuffer,
+  dateWhenTimerStart: string,
+  targetDate: string,
+  intervalId: NodeJS.Timeout | number,
+  time: string,
+  name: string,
+  isTimeStopped: boolean,
+  timeWhenStopped: string,
+  isSessionStarted: boolean,
 }
 
 export type Timers = Array<Timer>
+export type LocalstorageTimers = Array<LocalstorageTimer>

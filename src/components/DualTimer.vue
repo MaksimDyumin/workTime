@@ -29,6 +29,7 @@ function stopTimer() {
 }
 function runTimer() {
   const timer = timeStore.getActiveTimer
+  timer.isSessionStarted = true
   timer.targetDate = new Date(timer.targetDate.getTime() + (new Date().getTime() - timer.timeWhenStopped.getTime()))
 
   timeStore.calculeteTime(timeStore.indexActiveTimer)
@@ -37,6 +38,7 @@ function runTimer() {
 function resetTimer() {
   timeStore.clearTimer(timeStore.indexActiveTimer)
   activeTimer.value.isTimeStopped = false
+  activeTimer.value.isSessionStarted = false
 }
 </script>
 

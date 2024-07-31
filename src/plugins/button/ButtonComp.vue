@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { useIdStore } from '@/store/ids';
 import { useTimeStore } from '@/store/timer';
 
 
 const timreStore = useTimeStore()
+const idStore = useIdStore()
 
 function savechanges() {
     setTimeout(()=>{
         localStorage.setItem('timers', JSON.stringify(timreStore.timers))
+        localStorage.setItem('nextId', JSON.stringify(idStore.nextId))
     }, 50)
 }
 </script>
