@@ -8,24 +8,4 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
-    "lib": ["ES7", "dom", "ES2016"],
-    "module": "ES2015",
-    "target": "ES2016",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-    },
-    "composite": true,
-    "declaration": true,
-    "noEmit": true,
-    "strict": true,
-    "emitDeclarationOnly": false,
-  },
-  
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/**/*.spec.ts"],
 }
