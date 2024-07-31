@@ -35,9 +35,6 @@ export const useTimeStore = defineStore('time', {
 
   getters: {
     getActiveTimer: (state) => state.timers[state.indexActiveTimer],
-    // getTimeString: (state: any,) => {
-
-    // },
   },
 
   actions: {
@@ -71,6 +68,9 @@ export const useTimeStore = defineStore('time', {
     clearTimer(indexActiveTimer: number) {
       const timer = this.timers[indexActiveTimer]
       clearInterval(timer.intervalId)
+      timer.isSessionStarted = false
+      timer.isTimeStopped = false
+
       timer.timeBuffer = {
         hours: 0,
         minutes: 0,
@@ -97,6 +97,12 @@ export const useTimeStore = defineStore('time', {
 
         if (res <= 0) {
           clearInterval(timer.intervalId)
+          timer.isSessionStarted = false
+          timer.isTimeStopped = false
+          timer.dateWhenTimerStart = new Date(),
+          timer.targetDate = new Date(),
+          timer.timeWhenStopped = new Date(),
+
           timer.timeBuffer = {
             hours: 0,
             minutes: 0,

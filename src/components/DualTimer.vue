@@ -5,11 +5,15 @@ import type { ComputedRef } from 'vue'
 import { useTimeStore } from '@/store/timer.ts'
 import type { Timer } from '@/store/store.types.ts'
 import { useAudioStore } from '@/store/audio.js';
+import { useModalStore } from '@/store/modal'
+import AddTime from './modals/AddTime.vue'
+
 
 const timeStore = useTimeStore()
 
 let timer: ComputedRef<Timer> = computed(() => { return timeStore.getActiveTimer })
 const activeTimer = computed(() => timeStore.getActiveTimer)
+const modalStore = useModalStore()
 
 function startTimer() {
   let [hours, minutes] = timer.value.time.split(':');
@@ -20,6 +24,7 @@ function startTimer() {
   timer.value.targetDate = dwts
   timeStore.startTimer(timeStore.indexActiveTimer)
 
+  activeTimer.value.isSessionStarted = true
   const audioStore = useAudioStore()
   audioStore.playBackgroundAudio()
 }
@@ -29,7 +34,6 @@ function stopTimer() {
 }
 function runTimer() {
   const timer = timeStore.getActiveTimer
-  timer.isSessionStarted = true
   timer.targetDate = new Date(timer.targetDate.getTime() + (new Date().getTime() - timer.timeWhenStopped.getTime()))
 
   timeStore.calculeteTime(timeStore.indexActiveTimer)
@@ -40,6 +44,10 @@ function resetTimer() {
   activeTimer.value.isTimeStopped = false
   activeTimer.value.isSessionStarted = false
 }
+
+function showAddTimeModal() {
+  modalStore.showModal(AddTime)
+}
 </script>
 
 
@@ -47,10 +55,13 @@ function resetTimer() {
   <div class="dual-timer-container">
     <div class="menu-container">
       <input v-model="timer.time" type="time" class="timer">
-      <v-button @click="startTimer">Начать</v-button>
-      <v-button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</v-button>
-      <v-button v-else @click="runTimer">Продолжить</v-button>
+      <v-button v-if="!activeTimer.isSessionStarted" @click="startTimer">Начать</v-button>
+      <div v-else class="">
+        <v-button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</v-button>
+        <v-button v-else @click="runTimer">Продолжить</v-button>
+      </div>
       <v-button @click="resetTimer">Сброс</v-button>
+      <v-button @click="showAddTimeModal">+ время</v-button>
     </div>
     <div class="timers-container">
       <div class="reversed">

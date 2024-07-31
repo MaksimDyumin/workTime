@@ -43,8 +43,6 @@ timeStore.timers.forEach((timer, index)=>{
     timeStore.calculeteTime(index)
   }
 })
-
-
 </script>
 
 <template>
