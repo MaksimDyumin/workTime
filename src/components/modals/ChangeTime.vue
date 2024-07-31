@@ -1,5 +1,3 @@
-
-
 <script setup lang="ts">
 import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer';
@@ -8,26 +6,39 @@ import { ref } from 'vue';
 const timerStore = useTimeStore()
 const modalStore = useModalStore()
 const deltaTimeValue = ref('')
-// const timer = timerStore.timers[timerStore.sidebarManagingTimer]
 
-function applyChanges() {
-    const [hours, minutes] = deltaTimeValue.value.split(':').map((time)=>{
-        return parseInt(time)
-    })
-    if (!hours && !minutes) {
-        return
-    }
-    const targetDate = timerStore.getActiveTimer.targetDate
-    targetDate.setMinutes(targetDate.getMinutes() - minutes)
-    targetDate.setHours(targetDate.getHours() - hours)
-    modalStore.hideModal()
+function plusTime() {
+  const [hours, minutes] = deltaTimeValue.value.split(':').map((time) => {
+    return parseInt(time)
+  })
+  if (!hours && !minutes) {
+    return
+  }
+  const targetDate = timerStore.getActiveTimer.targetDate
+  targetDate.setMinutes(targetDate.getMinutes() - minutes)
+  targetDate.setHours(targetDate.getHours() - hours)
+  modalStore.hideModal()
+}
+
+function minusTime() {
+  const [hours, minutes] = deltaTimeValue.value.split(':').map((time) => {
+    return parseInt(time)
+  })
+  if (!hours && !minutes) {
+    return
+  }
+  const targetDate = timerStore.getActiveTimer.targetDate
+  targetDate.setMinutes(targetDate.getMinutes() + minutes)
+  targetDate.setHours(targetDate.getHours() + hours)
+  modalStore.hideModal()
 }
 </script>
 
 <template>
   <div class="item-component">
     <input v-model="deltaTimeValue" type="time" class="timer">
-    <v-button @click="applyChanges">Подтвердить добавление</v-button>
+    <v-button @click="plusTime">+ Добавить</v-button>
+    <v-button @click="minusTime">- Отнять</v-button>
     <!-- <v-button class="remove-button" @click="removeTimer">Удалить</v-button> -->
   </div>
 </template>
@@ -73,10 +84,11 @@ button:active {
   background-color: #004085;
 } */
 
-.remove-button{
+.remove-button {
   background-color: rgb(232, 0, 0);
 }
-.remove-button:hover{
+
+.remove-button:hover {
   background-color: rgb(185, 0, 0);
 }
 </style>

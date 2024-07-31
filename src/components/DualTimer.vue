@@ -6,7 +6,7 @@ import { useTimeStore } from '@/store/timer.ts'
 import type { Timer } from '@/store/store.types.ts'
 import { useAudioStore } from '@/store/audio.js';
 import { useModalStore } from '@/store/modal'
-import AddTime from './modals/AddTime.vue'
+import AddTime from './modals/ChangeTime.vue'
 
 
 const timeStore = useTimeStore()
@@ -46,7 +46,7 @@ function resetTimer() {
   activeTimer.value.isSessionStarted = false
 }
 
-function showAddTimeModal() {
+function showChangeTimeModal() {
   modalStore.showModal(AddTime)
 }
 </script>
@@ -57,12 +57,10 @@ function showAddTimeModal() {
     <div class="menu-container">
       <input v-model="timer.time" type="time" class="timer">
       <v-button v-if="!activeTimer.isSessionStarted" @click="startTimer">Начать</v-button>
-      <div v-else class="">
-        <v-button v-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</v-button>
-        <v-button v-else @click="runTimer">Продолжить</v-button>
-      </div>
+      <v-button v-else-if="!activeTimer.isTimeStopped" @click="stopTimer">Пауза</v-button>
+      <v-button v-else @click="runTimer">Продолжить</v-button>
       <v-button @click="resetTimer">Сброс</v-button>
-      <v-button @click="showAddTimeModal">+ время</v-button>
+      <v-button @click="showChangeTimeModal">+/- время</v-button>
     </div>
     <div class="timers-container">
       <div class="reversed">
