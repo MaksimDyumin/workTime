@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAudioStore } from "./audio";
 import { Timer } from './store.types';
-import { useIdStore } from './ids';
 
 interface State {
   timers: Array<Timer>
