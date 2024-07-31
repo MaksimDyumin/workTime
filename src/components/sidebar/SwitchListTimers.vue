@@ -1,12 +1,46 @@
+<template>
+  <div class="switch-container">
+    <transition-group name="timerCard" mode="out-in">
+      <div
+        v-for="(timer, index) in timeStore.timers"
+        :key="timer.id"
+        :draggable="true"
+        @dragstart="onDragStart(index, $event)"
+        @dragover.prevent
+        @drop="onDrop(index)"
+        @click="switchTimer(index)"
+        :class="`timer-swicher ${index === timeStore.indexActiveTimer ? 'active' : ''}`"
+      >
+        <v-card :class="`card-in-sidebar ${index === timeStore.indexActiveTimer ? 'active-card' : ''}`">
+          <h3>{{ timer.name }}</h3>
+          <div class="abvgd">
+            <div class="info-container">
+              <span><b style="margin-right: 6px;">Прошло:</b> {{ timeStore.getReversedTimeString(index) }}</span>
+              <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore.getTimeString(index) }}</span>
+            </div>
+            <div class="action-container">
+              <v-button @click="configurateTimer(index, $event)">Настроить таймер</v-button>
+            </div>
+          </div>
+        </v-card>
+      </div>
+    </transition-group>
+    <v-button class="new-timer-button" @click="addNewTimer()">Новый таймер</v-button>
+  </div>
+</template>
+
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useModalStore } from '@/store/modal';
 import { useTimeStore } from '@/store/timer.ts'
 import ManageTimer from '../modals/ManageTimer.vue';
 import { useIdStore } from '@/store/ids';
+import { Timer } from '@/store/store.types';
 
 const timeStore = useTimeStore()
 const modalStore = useModalStore()
 const idStore = useIdStore()
+const draggedIndex = ref<number | null>(null);
 
 function addNewTimer() {
   timeStore.timers.push(
@@ -40,38 +74,48 @@ function configurateTimer(index: number, e: Event) {
   modalStore.isModalVisible = true
 }
 
-</script>
+function onDragStart(index: number, e: DragEvent) {
+  draggedIndex.value = index;
+}
 
-<template>
-  <div class="switch-container">
+function onDrop(index: number) {
+  if (draggedIndex.value === null) return;
+
+  const draggedItem = timeStore.timers[draggedIndex.value];
+  
+  timeStore.timers.splice(draggedIndex.value, 1);
+  timeStore.timers.splice(index, 0, draggedItem);
+  if (draggedIndex.value < timeStore.indexActiveTimer && index > timeStore.indexActiveTimer && draggedIndex.value - index !== 1) {
+    setTimeout(() => {
+      timeStore.indexActiveTimer = timeStore.indexActiveTimer - 1
+    },0);
+  }
+  if (draggedIndex.value > timeStore.indexActiveTimer && index < timeStore.indexActiveTimer) {
+    setTimeout(() => {
+      timeStore.indexActiveTimer = timeStore.indexActiveTimer + 1
+    },);
+  }
+
+  if (draggedIndex.value > timeStore.indexActiveTimer && draggedIndex.value - index === 1) {
+    // setTimeout(() => {
+    //   timeStore.indexActiveTimer = timeStore.indexActiveTimer + 1
+    // },);
+    console.log('message')
+  }
+
+  if (draggedIndex.value === timeStore.indexActiveTimer) {
+    setTimeout(()=>{
+      timeStore.indexActiveTimer = index
+    })
     
-    <transition-group name="timerCard" mode="out-in">
-      <div @click="switchTimer(index)" :class="`timer-swicher ${index === timeStore.indexActiveTimer ? 'active' : ''}`"
-        v-for="timer, index in timeStore.timers" :key="timer.id">
-        
-        <v-card :class="`card-in-sidebar ${index === timeStore.indexActiveTimer ? 'active-card' : ''}`">
-          <h3>{{ timer.name }}</h3>
-
-          <div class="abvgd">
-
-            <div class="info-container">
-              <span><b style="margin-right: 6px;">Прошло:</b> {{ timeStore.getReversedTimeString(index) }}</span>
-              <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore.getTimeString(index) }}</span>
-            </div>
-
-            <div class="action-container">
-              <v-button @click="configurateTimer(index, $event)">Настроить кнопку</v-button>
-            </div>
-
-          </div>
-
-        </v-card>
-
-      </div>
-    </transition-group>
-    <v-button class="new-timer-button" @click="addNewTimer()">Новый таймер</v-button>
-  </div>
-</template>
+  }
+  // 1) [1, 2, 3, 4]
+  // 2) [ , 2, 3, 4] {1}
+  // 3) [2, 1, 3, 4]
+  //[1, 2, 3, 4]
+  draggedIndex.value = null;
+}
+</script>
 
 <style scoped>
 .switch-container {
@@ -84,12 +128,12 @@ function configurateTimer(index: number, e: Event) {
   transition: all 0.3s;
 }
 
-.abvgd{
+.abvgd {
   display: flex;
   width: 100%;
 }
 
-.timer-swicher+.timer-swicher {
+.timer-swicher + .timer-swicher {
   margin-top: 15px;
 }
 
@@ -140,7 +184,6 @@ function configurateTimer(index: number, e: Event) {
   border-color: gray;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: scale(1.05);
-
 }
 
 .active-card {
