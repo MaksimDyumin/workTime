@@ -94,7 +94,8 @@ function onDrop(index: number) {
               <span><b style="margin-right: 6px;">Осталось:</b> {{ timeStore.getTimeString(index) }}</span>
             </div>
             <div class="action-container">
-              <v-button @click="configurateTimer(index, $event)">Настроить таймер</v-button>
+              <mdicon name="cog" style="color: #007bff;" @click="configurateTimer(index, $event)">Настройки</mdicon>
+              <mdicon name="history" style="color: #007bff;" />
             </div>
           </div>
         </v-card>
@@ -105,7 +106,7 @@ function onDrop(index: number) {
 </template>
 
 
-<style scoped>
+<style >
 .switch-container {
   width: 100%;
   transition: all 0.3s;
@@ -119,6 +120,7 @@ function onDrop(index: number) {
 .abvgd {
   display: flex;
   width: 100%;
+  justify-content: space-between;
 }
 
 .timer-swicher + .timer-swicher {
@@ -154,12 +156,16 @@ function onDrop(index: number) {
 }
 
 .action-container {
-  width: 62%;
+  /* width: 62%; */
   height: 100%;
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+span + span{
+  margin-left: 10px;
 }
 
 .new-timer-button {
@@ -190,5 +196,13 @@ function onDrop(index: number) {
 .timerCard-leave-to {
   transform: translateX(-20px);
   opacity: 0;
+}
+
+
+.mdi-svg {
+  fill: #007bff!important;
+}
+.mdi-svg:hover {
+  fill: #0056b3!important;
 }
 </style>
